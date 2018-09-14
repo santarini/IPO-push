@@ -10,6 +10,5 @@ soup = bs.BeautifulSoup(response.text, 'lxml')
 resultsSpan = soup('span', text=re.compile("of \d\d\d results"))[0].text
 resultsSpan = resultsSpan.split("of ")[1]
 resultsSpan = resultsSpan.split("results")[0]
-
-
-print(resultsSpan)
+if int(resultsSpan) > 100:
+    print(resultsSpan)
