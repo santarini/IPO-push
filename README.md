@@ -1,5 +1,7 @@
 # IPO-push
 
-pseudo get data
-email data
-text data
+pseudo 
+
+- [x] get data
+- [ ] email data
+- [ ] text data
