@@ -16,7 +16,7 @@ endWeek = beginWeek + timedelta(days=6)
 #make a list for all dates in this week
 datesInWeek =[]
 
-for x in range (0, 6):
+for x in range (0, 7):
     datesInWeek.append((beginWeek + timedelta(days = x)).strftime('%Y-%m-%d'))
 
 #check to see
@@ -38,7 +38,7 @@ with open('econEvents.csv', 'a') as csvfileB:
     writer = csv.DictWriter(csvfileB, fieldnames=fieldnames, lineterminator = '\n')
     writer.writeheader()
     #perform main function for each day in week
-    for x in range (0, 7):
+    for x in range (0, 6):
         response = requests.get('https://finance.yahoo.com/calendar/economic?from=' + beginWeek.strftime("%Y-%m-%d") +'&to=' + endWeek.strftime("%Y-%m-%d") + '&day=' + datesInWeek[x])
         soup = bs.BeautifulSoup(response.text, 'lxml')
         #check to see if there are more than 100 results for the date
