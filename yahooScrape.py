@@ -18,7 +18,8 @@ datesInWeek =[]
 for x in range (0, 7):
     datesInWeek.append((beginWeek + timedelta(days = x)).strftime('%Y-%m-%d'))
 
-
+#create a CSV for the Output
+    
 with open('ipoData.csv', 'a') as csvfileB:
     fieldnames = ['Ticker',
                   'Company Name',
@@ -32,7 +33,9 @@ with open('ipoData.csv', 'a') as csvfileB:
                   ]
     writer = csv.DictWriter(csvfileB, fieldnames=fieldnames, lineterminator = '\n')
     writer.writeheader()
+    
     #perform main function for each day in week
+    
     for x in range (0, 7):
         response = requests.get('https://finance.yahoo.com/calendar/ipo?from=' + beginWeek.strftime("%Y-%m-%d") +' &to=' + endWeek.strftime("%Y-%m-%d") + '&day=' + datesInWeek[x] )
         soup = bs.BeautifulSoup(response.text, 'lxml')
@@ -51,6 +54,8 @@ with open('ipoData.csv', 'a') as csvfileB:
                         currency = tr.findAll("td")[6]
                         shares = tr.findAll("td")[7]
                         actions = tr.findAll("td")[8]
+                        
+                        #write to CSV
                         
                         writer.writerow({'Ticker': ticker.text ,
                                          'Company Name': companyName.text,
