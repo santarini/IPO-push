@@ -16,7 +16,7 @@ endWeek = beginWeek + timedelta(days=6)
 #make a list for all dates in this week
 datesInWeek =[]
 
-for x in range (0, 7):
+for x in range (0, 6):
     datesInWeek.append((beginWeek + timedelta(days = x)).strftime('%Y-%m-%d'))
 
 #check to see
@@ -43,14 +43,14 @@ with open('econEvents.csv', 'a') as csvfileB:
         soup = bs.BeautifulSoup(response.text, 'lxml')
         #check to see if there are more than 100 results for the date
         print('https://finance.yahoo.com/calendar/economic?from=' + beginWeek.strftime("%Y-%m-%d") +'&to=' + endWeek.strftime("%Y-%m-%d") + '&day=' + datesInWeek[x])
-        resultsSpan = soup('span', text=re.compile("of \d{1,2,3,4} results"))[0].text
+        resultsSpan = soup('span', text=re.compile("of [0-9]+ results"))[0].text
         resultsSpan = resultsSpan.split("of ")[1]
         resultsSpan = resultsSpan.split("results")[0]
         if int(resultsSpan) > 100:
             numberOfPages = int(resultsSpan)/100
             i = 0
             while i <= numberOfPages:
-                response = requests.get('https://finance.yahoo.com/calendar/economic?from=' + beginWeek.strftime("%Y-%m-%d") +'&to=' + endWeek.strftime("%Y-%m-%d") + '&day=' + datesInWeek[x] + '&offset='+ (i *100) + '&size=' + (i * 200) )
+                response = requests.get('https://finance.yahoo.com/calendar/economic?from=' + beginWeek.strftime("%Y-%m-%d") +'&to=' + endWeek.strftime("%Y-%m-%d") + '&day=' + datesInWeek[x] + '&offset='+ str(int(i *100)) + '&size=' + str(int(i *200)) )
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 for table in soup.findAll('table'):
                     for tbody in table.findAll('tbody'):
